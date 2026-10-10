@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>My Calendar</title>
+<title>My Calendar</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1e3a8a"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial;background:#f4f6fb;color:#1f2937}
 header{background:#1e3a8a;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
@@ -77,6 +77,6 @@ const di=sort(A.filter(i=>i.date==sel));dl.innerHTML=di.length?di.map(i=>card(i,
 const w=new Date();w.setDate(w.getDate()+7);const we=loc(w);let r;
 if(rt=='up')r=A.filter(i=>i.date>=t&&i.date<=we&&!i.done);else if(rt=='open')r=A.filter(i=>i.type=='task'&&!i.done);else r=A.filter(i=>i.type=='task'&&!i.done&&i.date<t);
 r=sort(r);rl.innerHTML=r.length?r.map(i=>card(i,{date:1})).join(''):'<div class=empty>All clear.</div>'}
-render();
+render();if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
 fetch('events.json?'+Date.now()).then(r=>r.json()).then(j=>{shared=j;render()}).catch(()=>{});
 </script></body></html>
