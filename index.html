@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Calendar</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial;background:#f4f6fb;color:#1f2937}
+header{background:#1e3a8a;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0;font-size:20px}#today{font-size:14px;opacity:.9}
+main{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;padding:16px;max-width:1300px;margin:auto}
+@media(max-width:850px){main{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:12px;box-shadow:0 1px 4px #0001;padding:14px}
+.card h2{margin:0 0 10px;font-size:16px;color:#1e3a8a}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.nav button,button.p{background:#1e3a8a;color:#fff;border:0;border-radius:8px;padding:6px 12px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.dow{text-align:center;font-size:12px;color:#6b7280;font-weight:600}
+.day{min-height:70px;border:1px solid #e5e7eb;border-radius:8px;padding:4px;cursor:pointer;font-size:12px;overflow:hidden}
+.day:hover{background:#eef2ff}.day.other{opacity:.35}.day.today{border:2px solid #f59e0b}.day.sel{background:#dbeafe}
+.dot{display:block;border-radius:4px;padding:1px 4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}
+.ev{background:#2563eb}.tk{background:#059669}.tk.done{background:#9ca3af;text-decoration:line-through}
+form{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+input,select{padding:6px;border:1px solid #d1d5db;border-radius:6px;font-size:14px}input[type=text]{flex:1;min-width:140px}
+ul{list-style:none;padding:0;margin:0}li{display:flex;align-items:center;gap:8px;padding:7px;border-bottom:1px solid #f1f5f9;font-size:14px}
+li .t{color:#6b7280;font-size:12px;min-width:80px}li .x{margin-left:auto;cursor:pointer;color:#dc2626;border:0;background:none;font-size:16px}
+li.done span.n{text-decoration:line-through;color:#9ca3af}.badge{font-size:11px;padding:1px 6px;border-radius:10px;color:#fff}
+.side{display:flex;flex-direction:column;gap:16px}.empty{color:#9ca3af;font-size:13px;padding:6px}
+.tabs button{background:#e5e7eb;border:0;padding:5px 10px;border-radius:6px;cursor:pointer;margin-right:4px}.tabs button.on{background:#1e3a8a;color:#fff}
+</style></head><body>
+<header><h1>📅 My Calendar</h1><div id="today"></div></header>
+<main>
+<section class="card"><div class="nav"><button onclick="mv(-1)">‹</button><h2 id="mt"></h2><button onclick="mv(1)">›</button></div>
+<div class="grid" id="cal"></div><p style="font-size:12px;color:#6b7280">Click a day to see and add its items. <span class="badge ev">Event</span> <span class="badge tk">Task</span></p></section>
+<div class="side">
+<section class="card"><h2 id="dt">Selected day</h2>
+<form onsubmit="add(event)"><select id="ty"><option value="task">Task</option><option value="event">Event</option></select>
+<input type="text" id="nm" placeholder="What do you need to remember?" required><input type="time" id="tm"><input type="date" id="dd"><button class="p">Add</button></form>
+<ul id="dl"></ul></section>
+<section class="card"><h2>Review</h2><div class="tabs"><button id="b1" class="on" onclick="tab('up')">Upcoming 7 days</button><button id="b2" onclick="tab('open')">Open tasks</button><button id="b3" onclick="tab('late')">Overdue</button></div><ul id="rl" style="margin-top:8px"></ul></section>
+</div></main>
+<script>
+const K='freemanCal';let items=JSON.parse(localStorage.getItem(K)||'[]');const iso=d=>d.toISOString().slice(0,10);
+const loc=d=>{const z=new Date(d);z.setMinutes(z.getMinutes()-z.getTimezoneOffset());return iso(z)};
+let now=new Date(),view=new Date(now.getFullYear(),now.getMonth(),1),sel=loc(now),rt='up';
+const save=()=>{localStorage.setItem(K,JSON.stringify(items));render()};
+function mv(n){view.setMonth(view.getMonth()+n);render()}
+function pick(d){sel=d;document.getElementById('dd').value=d;render()}
+function add(e){e.preventDefault();items.push({id:Date.now(),type:ty.value,name:nm.value.trim(),time:tm.value,date:dd.value||sel,done:false});nm.value='';tm.value='';save()}
+function tog(id){const i=items.find(x=>x.id==id);i.done=!i.done;save()}
+function del(id){items=items.filter(x=>x.id!=id);save()}
+function tab(t){rt=t;['b1','b2','b3'].forEach((b,i)=>document.getElementById(b).classList.toggle('on',['up','open','late'][i]==t));render()}
+const sort=a=>a.sort((x,y)=>(x.date+x.time).localeCompare(y.date+y.time));
+function li(i,showDate){const done=i.type=='task'&&i.done;return `<li class="${done?'done':''}">${i.type=='task'?`<input type=checkbox ${i.done?'checked':''} onchange="tog(${i.id})">`:'📌'}<span class="t">${showDate?i.date+' ':''}${i.time||''}</span><span class="n">${i.name.replace(/</g,'&lt;')}</span><span class="badge ${i.type=='task'?'tk':'ev'}">${i.type}</span><button class="x" onclick="del(${i.id})">×</button></li>`}
+function render(){const t=loc(new Date());document.getElementById('today').textContent=new Date().toDateString();
+mt.textContent=view.toLocaleString('en',{month:'long',year:'numeric'});
+let h=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class=dow>${d}</div>`).join('');
+let s=new Date(view);s.setDate(1-view.getDay());
+for(let k=0;k<42;k++){const d=new Date(s);d.setDate(s.getDate()+k);const ds=loc(d);const its=sort(items.filter(i=>i.date==ds));
+h+=`<div class="day ${d.getMonth()!=view.getMonth()?'other':''} ${ds==t?'today':''} ${ds==sel?'sel':''}" onclick="pick('${ds}')"><b>${d.getDate()}</b>${its.slice(0,3).map(i=>`<span class="dot ${i.type=='task'?'tk':'ev'} ${i.done?'done':''}">${i.time?i.time+' ':''}${i.name.replace(/</g,'&lt;')}</span>`).join('')}${its.length>3?`<small>+${its.length-3} more</small>`:''}</div>`}
+cal.innerHTML=h;dt.textContent=new Date(sel+'T00:00').toDateString();if(!dd.value)dd.value=sel;
+const di=sort(items.filter(i=>i.date==sel));dl.innerHTML=di.length?di.map(i=>li(i)).join(''):'<div class=empty>Nothing planned. Add a task or event above.</div>';
+const w=new Date();w.setDate(w.getDate()+7);const we=loc(w);let r;
+if(rt=='up')r=items.filter(i=>i.date>=t&&i.date<=we&&!i.done);else if(rt=='open')r=items.filter(i=>i.type=='task'&&!i.done);else r=items.filter(i=>i.type=='task'&&!i.done&&i.date<t);
+r=sort(r);rl.innerHTML=r.length?r.map(i=>li(i,1)).join(''):'<div class=empty>All clear.</div>'}
+render();
+</script></body></html>
