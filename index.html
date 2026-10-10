@@ -13,9 +13,9 @@ main{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;padding:14px;max-widt
 .tabs button{background:#e5e7eb;border:0;padding:6px 12px;border-radius:6px;cursor:pointer;margin-right:4px;font-size:14px}.tabs button.on{background:#1e3a8a;color:#fff}
 .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .dow{text-align:center;font-size:12px;color:#6b7280;font-weight:600}
-.day{min-height:64px;border:1px solid #e5e7eb;border-radius:8px;padding:4px;cursor:pointer;font-size:11px;overflow:hidden}
+.day{min-height:78px;border:1px solid #e5e7eb;border-radius:8px;padding:4px;cursor:pointer;font-size:11px;overflow:hidden}
 .day:hover{background:#eef2ff}.day.other{opacity:.35}.day.today{border:2px solid #f59e0b}.day.sel{background:#dbeafe}
-.dot{display:block;border-radius:4px;padding:1px 4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}
+.dot{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;border-radius:4px;padding:1px 4px;margin-top:2px;overflow:hidden;color:#fff;line-height:1.25;word-break:break-word}
 .ev{background:#2563eb}.tk{background:#059669}.done{opacity:.5;text-decoration:line-through}
 .wk{display:flex;flex-direction:column;gap:8px}
 .wd{border:1px solid #e5e7eb;border-radius:10px;padding:8px 10px;cursor:pointer}.wd.today{border:2px solid #f59e0b}.wd.sel{background:#f0f5ff}
@@ -33,9 +33,9 @@ input,select,textarea{padding:6px;border:1px solid #d1d5db;border-radius:6px;fon
 <main>
 <section class="card">
 <div class="nav"><button onclick="mv(-1)">‹</button><h2 id="mt" style="margin:0"></h2><button onclick="mv(1)">›</button></div>
-<div class="tabs" style="margin-bottom:10px"><button id="vw" class="on" onclick="setV('week')">Week</button><button id="vm" onclick="setV('month')">Month</button><button onclick="goToday()">Today</button></div>
+<div class="tabs" style="margin-bottom:10px"><button id="vw" onclick="setV('week')">Week</button><button id="vm" class="on" onclick="setV('month')">Month</button><button onclick="goToday()">Today</button></div>
 <div id="view"></div>
-<p style="font-size:12px;color:#6b7280">Tap an item to see its full details. <span class="dot ev" style="display:inline">Event</span> <span class="dot tk" style="display:inline">Task</span></p></section>
+<p style="font-size:12px;color:#6b7280">Tap a day to see its items; tap an item to see its full details. <span class="dot ev" style="display:inline">Event</span> <span class="dot tk" style="display:inline">Task</span></p></section>
 <div class="side">
 <section class="card"><h2 id="dt">Selected day</h2>
 <form onsubmit="add(event)"><select id="ty"><option value="task">Task</option><option value="event">Event</option></select>
@@ -48,14 +48,14 @@ const K='myCal',KD='myCalDone',KH='myCalHidden';
 let mine=JSON.parse(localStorage.getItem(K)||'[]'),doneS=new Set(JSON.parse(localStorage.getItem(KD)||'[]')),hid=new Set(JSON.parse(localStorage.getItem(KH)||'[]')),shared=[];
 const loc=d=>{const z=new Date(d);z.setMinutes(z.getMinutes()-z.getTimezoneOffset());return z.toISOString().slice(0,10)};
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let sel=loc(new Date()),cur=new Date(),v='week',rt='up';
+let sel=loc(new Date()),cur=new Date(),v='month',rt='up';
 const all=()=>[...shared,...mine].filter(i=>!hid.has(String(i.id))).map(i=>({...i,done:doneS.has(String(i.id))}));
 const sort=a=>a.sort((x,y)=>(x.date+(x.time||'')).localeCompare(y.date+(y.time||'')));
 const save=()=>{localStorage.setItem(K,JSON.stringify(mine));localStorage.setItem(KD,JSON.stringify([...doneS]));localStorage.setItem(KH,JSON.stringify([...hid]));render()};
 function setV(x){v=x;vw.classList.toggle('on',x=='week');vm.classList.toggle('on',x=='month');render()}
 function goToday(){sel=loc(new Date());cur=new Date();dd.value=sel;render()}
 function mv(n){if(v=='week')cur.setDate(cur.getDate()+7*n);else{cur.setDate(1);cur.setMonth(cur.getMonth()+n)}render()}
-function pick(d){sel=d;dd.value=d;render()}
+function pick(d){sel=d;dd.value=d;render();if(innerWidth<850)dt.scrollIntoView({behavior:'smooth'})}
 function add(e){e.preventDefault();mine.push({id:'m'+Date.now(),type:ty.value,name:nm.value.trim(),time:tm.value,date:dd.value||sel,details:ds.value.trim()});nm.value='';tm.value='';ds.value='';save()}
 function tog(id){id=String(id);doneS.has(id)?doneS.delete(id):doneS.add(id);save()}
 function del(id){if(!confirm('Remove this item?'))return;id=String(id);mine=mine.filter(x=>String(x.id)!=id);hid.add(id);save()}
