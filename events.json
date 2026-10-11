@@ -1,1 +1,74 @@
-[{"id":"stc-unsub-20261130","type":"task","name":"Unsubscribe from STC","date":"2026-11-30","time":"","details":"STC gave you a free upgrade for two months. After that the bill goes up, so unsubscribe before it renews at the higher price. Reminders: Nov 28 and Nov 30 at 9:07 AM in your Grok Bot chat."}]
+[
+ {
+  "id": "stc-unsub-20261130",
+  "type": "task",
+  "name": "Unsubscribe from STC",
+  "date": "2026-11-30",
+  "time": "",
+  "details": "STC gave you a free upgrade for two months. After that the bill goes up, so unsubscribe before it renews at the higher price. Reminders: Nov 28 and Nov 30 at 9:07 AM in your Grok Bot chat."
+ },
+ {
+  "id": "ramsey-20261008",
+  "type": "event",
+  "name": "Meeting with Ramsey (IT manager)",
+  "date": "2026-10-08",
+  "time": "18:00",
+  "details": "18:00–20:00."
+ },
+ {
+  "id": "server-plan-20261011",
+  "type": "task",
+  "name": "Server Solutions Plan",
+  "date": "2026-10-11",
+  "time": "",
+  "details": "Oct 5–11. Finish all server information and projects, check whether they fit the client's ERP requirements, and find a good server solution. Related: the Sahara Net cloud demo was on Oct 7 and they haven't sent a proposal yet."
+ },
+ {
+  "id": "stc-promo-20261202",
+  "type": "event",
+  "name": "STC half-price ending",
+  "date": "2026-12-02",
+  "time": "09:05",
+  "details": "Day 55 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+ },
+ {
+  "id": "stc-promo-20261203",
+  "type": "event",
+  "name": "STC half-price ending",
+  "date": "2026-12-03",
+  "time": "09:05",
+  "details": "Day 56 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+ },
+ {
+  "id": "stc-promo-20261204",
+  "type": "event",
+  "name": "STC half-price ending",
+  "date": "2026-12-04",
+  "time": "09:05",
+  "details": "Day 57 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+ },
+ {
+  "id": "stc-promo-20261205",
+  "type": "event",
+  "name": "STC half-price ending",
+  "date": "2026-12-05",
+  "time": "09:05",
+  "details": "Day 58 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+ },
+ {
+  "id": "stc-promo-20261206",
+  "type": "event",
+  "name": "STC half-price ending",
+  "date": "2026-12-06",
+  "time": "09:05",
+  "details": "Day 59 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+ },
+ {
+  "id": "stc-promo-20261207",
+  "type": "event",
+  "name": "STC half-price ending",
+  "date": "2026-12-07",
+  "time": "09:05",
+  "details": "Day 60 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+ }
+]
