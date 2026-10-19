@@ -23,7 +23,7 @@ main{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;padding:14px;max-widt
 .it{border-left:4px solid #2563eb;background:#f8fafc;border-radius:6px;padding:6px 8px;margin-top:5px}
 .it.tk{border-left-color:#059669;background:#f6fdf9;color:inherit}.it .ti{font-size:14px;font-weight:600;line-height:1.3}
 .it .tm{font-size:12px;color:#6b7280;margin-right:6px;font-weight:500}.it .more{font-size:11px;color:#2563eb}
-.it .dt{display:none;font-size:13px;color:#374151;margin-top:5px;white-space:pre-wrap;line-height:1.4}.it.open .dt{display:block}.it.open .more{display:none}
+.it .dt{display:none;font-size:13px;color:#374151;margin-top:5px;white-space:pre-wrap;line-height:1.4}.it.open .dt{display:block}.dt a{color:#2563eb;word-break:break-all}.it.open .more{display:none}
 form{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 input,select,textarea{padding:6px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;font-family:inherit}input[type=text]{flex:1;min-width:140px}textarea{width:100%;min-height:38px}
 .side{display:flex;flex-direction:column;gap:16px}.empty{color:#9ca3af;font-size:13px;padding:6px}
@@ -47,6 +47,7 @@ input,select,textarea{padding:6px;border:1px solid #d1d5db;border-radius:6px;fon
 const K='myCal',KD='myCalDone',KH='myCalHidden';
 let mine=JSON.parse(localStorage.getItem(K)||'[]'),doneS=new Set(JSON.parse(localStorage.getItem(KD)||'[]')),hid=new Set(JSON.parse(localStorage.getItem(KH)||'[]')),shared=[];
 const loc=d=>{const z=new Date(d);z.setMinutes(z.getMinutes()-z.getTimezoneOffset());return z.toISOString().slice(0,10)};
+const lnk=s=>esc(s).replace(/https?:\/\/[^\s<]+/g,u=>`<a href="${u}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${u}</a>`);
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let sel=loc(new Date()),cur=new Date(),v='month',rt='up';
 const all=()=>[...shared,...mine].filter(i=>!hid.has(String(i.id))).map(i=>({...i,done:doneS.has(String(i.id))}));
@@ -62,7 +63,7 @@ function del(id){if(!confirm('Remove this item?'))return;id=String(id);mine=mine
 function tab(t){rt=t;['b1','b2','b3'].forEach((b,i)=>document.getElementById(b).classList.toggle('on',['up','open','late'][i]==t));render()}
 function card(i,opt={}){const c=i.type=='task'?'tk':'ev';return `<div class="it ${c} ${i.done?'done':''}" onclick="event.stopPropagation();this.classList.toggle('open')">
 <div class="row">${i.type=='task'?`<input type=checkbox ${i.done?'checked':''} onclick="event.stopPropagation()" onchange="tog('${i.id}')">`:''}<div class="ti">${opt.date?`<span class="tm">${i.date}</span>`:''}${i.time?`<span class="tm">${i.time}</span>`:''}${esc(i.name)}</div>${opt.del?`<button class="x" onclick="event.stopPropagation();del('${i.id}')">×</button>`:''}</div>
-${i.details?`<div class="more">Tap for details ▾</div><div class="dt">${esc(i.details)}</div>`:''}</div>`}
+${i.details?`<div class="more">Tap for details ▾</div><div class="dt">${lnk(i.details)}</div>`:''}</div>`}
 function render(){const t=loc(new Date()),A=all();today.textContent=new Date().toDateString();let h='';
 if(v=='week'){const s=new Date(cur);const e=new Date(s);e.setDate(e.getDate()+6);
 mt.textContent=s.toLocaleDateString('en',{month:'short',day:'numeric'})+' – '+e.toLocaleDateString('en',{month:'short',day:'numeric',year:'numeric'});
