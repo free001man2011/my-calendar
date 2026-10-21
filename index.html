@@ -28,21 +28,30 @@ form{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 input,select,textarea{padding:6px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;font-family:inherit}input[type=text]{flex:1;min-width:140px}textarea{width:100%;min-height:38px}
 .side{display:flex;flex-direction:column;gap:16px}.empty{color:#9ca3af;font-size:13px;padding:6px}
 .row{display:flex;align-items:center;gap:6px}.row .x{margin-left:auto;cursor:pointer;color:#dc2626;border:0;background:none;font-size:18px}
+.mt{background:#7c3aed}.it.mt{border-left-color:#7c3aed;background:#faf5ff}
+header .tabs button{background:#ffffff22;color:#fff}header .tabs button.on{background:#fff;color:#1e3a8a}
+.pj{border:1px solid #e5e7eb;border-radius:10px;padding:10px;margin-top:10px}.pj h3{margin:0;font-size:15px;color:#1e3a8a;flex:1}
+.bar{height:6px;background:#e5e7eb;border-radius:4px;margin:6px 0}.bar i{display:block;height:100%;background:#059669;border-radius:4px}
+.pn{font-size:11px;color:#7c3aed;font-weight:600;margin-right:6px}.sm{font-size:12px;color:#6b7280}
+#planner{max-width:900px;margin:auto;padding:14px}
 </style></head><body>
-<header><h1>📅 My Calendar</h1><div id="today"></div></header>
-<main>
+<header><div><h1>📅 My Calendar</h1><div class="tabs" style="margin-top:6px"><button id="tc" class="on" onclick="page('cal')">Calendar</button><button id="tp" onclick="page('plan')">Planner</button></div></div><div id="today"></div></header>
+<main id="calp">
 <section class="card">
 <div class="nav"><button onclick="mv(-1)">‹</button><h2 id="mt" style="margin:0"></h2><button onclick="mv(1)">›</button></div>
 <div class="tabs" style="margin-bottom:10px"><button id="vw" onclick="setV('week')">Week</button><button id="vm" class="on" onclick="setV('month')">Month</button><button onclick="goToday()">Today</button></div>
 <div id="view"></div>
-<p style="font-size:12px;color:#6b7280">Tap a day to see its items; tap an item to see its full details. <span class="dot ev" style="display:inline">Event</span> <span class="dot tk" style="display:inline">Task</span></p></section>
+<p style="font-size:12px;color:#6b7280">Tap a day to see its items; tap an item to see its full details. <span class="dot ev" style="display:inline">Event</span> <span class="dot tk" style="display:inline">Task</span> <span class="dot mt" style="display:inline">Meeting</span></p></section>
 <div class="side">
 <section class="card"><h2 id="dt">Selected day</h2>
-<form onsubmit="add(event)"><select id="ty"><option value="task">Task</option><option value="event">Event</option></select>
+<form onsubmit="add(event)"><select id="ty"><option value="task">Task</option><option value="event">Event</option><option value="meeting">Meeting</option></select>
 <input type="text" id="nm" placeholder="Title" required><input type="time" id="tm"><input type="date" id="dd"><textarea id="ds" placeholder="Details (optional)"></textarea><button class="p">Add</button></form>
 <div id="dl"></div></section>
 <section class="card"><h2>Review</h2><div class="tabs"><button id="b1" class="on" onclick="tab('up')">Next 7 days</button><button id="b2" onclick="tab('open')">Open tasks</button><button id="b3" onclick="tab('late')">Overdue</button></div><div id="rl" style="margin-top:8px"></div></section>
 </div></main>
+<div id="planner" style="display:none"><section class="card"><h2>Projects &amp; clients</h2>
+<form onsubmit="addP(event)"><input type="text" id="pnm" placeholder="New project / client (e.g. Alrasheed Company)" required><textarea id="pds" placeholder="Note (optional)"></textarea><button class="p">Add project</button></form>
+<label class="sm"><input type="checkbox" id="shd" onchange="render()"> Show done items</label><div id="pl"></div></section></div>
 <script>
 const K='myCal',KD='myCalDone',KH='myCalHidden';
 let mine=JSON.parse(localStorage.getItem(K)||'[]'),doneS=new Set(JSON.parse(localStorage.getItem(KD)||'[]')),hid=new Set(JSON.parse(localStorage.getItem(KH)||'[]')),shared=[];
@@ -50,8 +59,12 @@ const loc=d=>{const z=new Date(d);z.setMinutes(z.getMinutes()-z.getTimezoneOffse
 const lnk=s=>esc(s).replace(/https?:\/\/[^\s<]+/g,u=>`<a href="${u}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${u}</a>`);
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let sel=loc(new Date()),cur=new Date(),v='month',rt='up';
-const all=()=>[...shared,...mine].filter(i=>!hid.has(String(i.id))).map(i=>({...i,done:doneS.has(String(i.id))}));
-const sort=a=>a.sort((x,y)=>(x.date+(x.time||'')).localeCompare(y.date+(y.time||'')));
+const every=()=>[...shared,...mine].filter(i=>!hid.has(String(i.id))).map(i=>({...i,done:doneS.has(String(i.id))!=!!i.done}));
+const projs=()=>every().filter(i=>i.type=='project');
+const pname=id=>{const p=projs().find(x=>String(x.id)==String(id));return p?p.name:''};
+const all=()=>every().filter(i=>i.type!='project'&&!(i.done&&!0));
+const sort=a=>a.sort((x,y)=>((x.date||'9999')+(x.time||'')).localeCompare((y.date||'9999')+(y.time||'')));
+const cls=t=>t=='task'?'tk':t=='meeting'?'mt':'ev';
 const save=()=>{localStorage.setItem(K,JSON.stringify(mine));localStorage.setItem(KD,JSON.stringify([...doneS]));localStorage.setItem(KH,JSON.stringify([...hid]));render()};
 function setV(x){v=x;vw.classList.toggle('on',x=='week');vm.classList.toggle('on',x=='month');render()}
 function goToday(){sel=loc(new Date());cur=new Date();dd.value=sel;render()}
@@ -61,8 +74,8 @@ function add(e){e.preventDefault();mine.push({id:'m'+Date.now(),type:ty.value,na
 function tog(id){id=String(id);doneS.has(id)?doneS.delete(id):doneS.add(id);save()}
 function del(id){if(!confirm('Remove this item?'))return;id=String(id);mine=mine.filter(x=>String(x.id)!=id);hid.add(id);save()}
 function tab(t){rt=t;['b1','b2','b3'].forEach((b,i)=>document.getElementById(b).classList.toggle('on',['up','open','late'][i]==t));render()}
-function card(i,opt={}){const c=i.type=='task'?'tk':'ev';return `<div class="it ${c} ${i.done?'done':''}" onclick="event.stopPropagation();this.classList.toggle('open')">
-<div class="row">${i.type=='task'?`<input type=checkbox ${i.done?'checked':''} onclick="event.stopPropagation()" onchange="tog('${i.id}')">`:''}<div class="ti">${opt.date?`<span class="tm">${i.date}</span>`:''}${i.time?`<span class="tm">${i.time}</span>`:''}${esc(i.name)}</div>${opt.del?`<button class="x" onclick="event.stopPropagation();del('${i.id}')">×</button>`:''}</div>
+function card(i,opt={}){const c=cls(i.type);return `<div class="it ${c} ${i.done?'done':''}" onclick="event.stopPropagation();this.classList.toggle('open')">
+<div class="row">${(i.type=='task'||i.project)?`<input type=checkbox ${i.done?'checked':''} onclick="event.stopPropagation()" onchange="tog('${i.id}')">`:''}<div class="ti">${i.project&&!opt.np?`<span class="pn">${esc(pname(i.project))}</span>`:''}${opt.date&&i.date?`<span class="tm">${i.date}</span>`:''}${i.time?`<span class="tm">${i.time}</span>`:''}${esc(i.name)}</div>${opt.del?`<button class="x" onclick="event.stopPropagation();del('${i.id}')">×</button>`:''}</div>
 ${i.details?`<div class="more">Tap for details ▾</div><div class="dt">${lnk(i.details)}</div>`:''}</div>`}
 function render(){const t=loc(new Date()),A=all();today.textContent=new Date().toDateString();let h='';
 if(v=='week'){const s=new Date(cur);const e=new Date(s);e.setDate(e.getDate()+6);
@@ -72,12 +85,21 @@ h+=`<div class="wd ${dsx==t?'today':''} ${dsx==sel?'sel':''}" onclick="pick('${d
 else{const m=new Date(cur.getFullYear(),cur.getMonth(),1);mt.textContent=m.toLocaleString('en',{month:'long',year:'numeric'});
 h='<div class="grid">'+['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class=dow>${d}</div>`).join('');const s=new Date(m);s.setDate(1-m.getDay());
 for(let k=0;k<42;k++){const d=new Date(s);d.setDate(s.getDate()+k);const dsx=loc(d);const its=sort(A.filter(i=>i.date==dsx));
-h+=`<div class="day ${d.getMonth()!=m.getMonth()?'other':''} ${dsx==t?'today':''} ${dsx==sel?'sel':''}" onclick="pick('${dsx}')"><b>${d.getDate()}</b>${its.slice(0,3).map(i=>`<span class="dot ${i.type=='task'?'tk':'ev'} ${i.done?'done':''}">${esc(i.name)}</span>`).join('')}${its.length>3?`<small>+${its.length-3}</small>`:''}</div>`}h+='</div>'}
+h+=`<div class="day ${d.getMonth()!=m.getMonth()?'other':''} ${dsx==t?'today':''} ${dsx==sel?'sel':''}" onclick="pick('${dsx}')"><b>${d.getDate()}</b>${its.slice(0,3).map(i=>`<span class="dot ${cls(i.type)}">${i.project?esc(pname(i.project))+': ':''}${esc(i.name)}</span>`).join('')}${its.length>3?`<small>+${its.length-3}</small>`:''}</div>`}h+='</div>'}
 view.innerHTML=h;dt.textContent=new Date(sel+'T00:00').toDateString();if(!dd.value)dd.value=sel;
 const di=sort(A.filter(i=>i.date==sel));dl.innerHTML=di.length?di.map(i=>card(i,{del:1})).join(''):'<div class=empty>Nothing planned. Add a task or event above.</div>';
 const w=new Date();w.setDate(w.getDate()+7);const we=loc(w);let r;
 if(rt=='up')r=A.filter(i=>i.date>=t&&i.date<=we&&!i.done);else if(rt=='open')r=A.filter(i=>i.type=='task'&&!i.done);else r=A.filter(i=>i.type=='task'&&!i.done&&i.date<t);
-r=sort(r);rl.innerHTML=r.length?r.map(i=>card(i,{date:1})).join(''):'<div class=empty>All clear.</div>'}
-render();if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+r=sort(r);rl.innerHTML=r.length?r.map(i=>card(i,{date:1})).join(''):'<div class=empty>All clear.</div>';rp()}
+function page(x){calp.style.display=x=='cal'?'':'none';planner.style.display=x=='plan'?'':'none';tc.classList.toggle('on',x=='cal');tp.classList.toggle('on',x=='plan');localStorage.setItem('myCalPage',x)}
+function addP(e){e.preventDefault();mine.push({id:'p'+Date.now(),type:'project',name:pnm.value.trim(),details:pds.value.trim()});pnm.value='';pds.value='';save()}
+function addI(e,pid){e.preventDefault();const f=e.target;mine.push({id:'m'+Date.now(),project:pid,type:f.t.value,name:f.n.value.trim(),date:f.d.value,time:f.h.value,details:f.x.value.trim()});save()}
+function delP(id){const n=every().filter(i=>String(i.project)==String(id)).length;if(!confirm('Remove this project'+(n?' and its '+n+' items':'')+'?'))return;every().filter(i=>String(i.project)==String(id)||String(i.id)==String(id)).forEach(i=>{mine=mine.filter(x=>String(x.id)!=String(i.id));hid.add(String(i.id))});save()}
+function rp(){const E=every(),sh=shd.checked;pl.innerHTML=projs().map(p=>{const it=sort(E.filter(i=>String(i.project)==String(p.id))),d=it.filter(i=>i.done).length,pc=it.length?Math.round(100*d/it.length):0;
+return `<div class="pj"><div class="row"><h3>${esc(p.name)}</h3><button class="x" onclick="delP('${p.id}')">×</button></div>${p.details?`<div class="sm">${lnk(p.details)}</div>`:''}
+<div class="bar"><i style="width:${pc}%"></i></div><div class="sm">${d}/${it.length} done</div>
+${it.filter(i=>sh||!i.done).map(i=>card(i,{date:1,del:1,np:1})).join('')||'<div class=empty>No open items.</div>'}
+<details style="margin-top:8px"><summary class="sm" style="cursor:pointer">+ Add step / task / meeting</summary><form onsubmit="addI(event,'${p.id}')" style="margin-top:6px"><select name="t"><option value="task">Task</option><option value="meeting">Meeting</option><option value="event">Event</option></select><input type="text" name="n" placeholder="What to do" required><input type="date" name="d"><input type="time" name="h"><textarea name="x" placeholder="Notes (optional)"></textarea><button class="p">Add</button></form></details></div>`}).join('')||'<div class=empty>No projects yet. Add one above.</div>'}
+page(localStorage.getItem('myCalPage')||'cal');render();if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
 fetch('events.json?'+Date.now()).then(r=>r.json()).then(j=>{shared=j;render()}).catch(()=>{});
 </script></body></html>

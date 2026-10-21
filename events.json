@@ -102,5 +102,20 @@
   "date": "2026-10-21",
   "time": "18:00",
   "details": "6:00 PM KSA. Reminder: 5:30 PM in your Grok Bot chat."
+ },
+ {
+  "id": "proj-alrasheed",
+  "type": "project",
+  "name": "Alrasheed Company",
+  "details": "Follow up and start business."
+ },
+ {
+  "id": "alrasheed-followup",
+  "project": "proj-alrasheed",
+  "type": "task",
+  "name": "Follow up and start business",
+  "date": "",
+  "time": "",
+  "details": ""
  }
 ]
