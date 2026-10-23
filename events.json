@@ -117,5 +117,44 @@
   "date": "",
   "time": "",
   "details": ""
+ },
+ {
+  "id": "alr-visit-202608",
+  "project": "proj-alrasheed",
+  "type": "task",
+  "name": "Site visit and IT/CCTV walkthrough",
+  "date": "",
+  "time": "",
+  "done": true,
+  "details": "Visit in late August 2026. Thank-you email and pilot next steps sent Sep 1."
+ },
+ {
+  "id": "alr-access-20260909",
+  "project": "proj-alrasheed",
+  "type": "task",
+  "name": "Camera access granted (Al-Ruwaidah branch)",
+  "date": "",
+  "time": "",
+  "done": true,
+  "details": "Eng. Ahmed Abdelwahap (it@alrasheedco.com.sa) granted access to ab.almusaed@ on Sep 3 and Shaheer@ on Sep 9."
+ },
+ {
+  "id": "alr-report-20261007",
+  "project": "proj-alrasheed",
+  "type": "task",
+  "name": "Sent Sager Eye report and meeting request",
+  "date": "",
+  "time": "",
+  "done": true,
+  "details": "Emailed Oct 7 (cc Majid Al-Mutairi and Alabbas), reminder Oct 14. No reply yet as of Oct 23."
+ },
+ {
+  "id": "alr-followup-20261025",
+  "project": "proj-alrasheed",
+  "type": "task",
+  "name": "Call Eng. Ahmed to book the Sager Eye meeting",
+  "date": "2026-10-25",
+  "time": "",
+  "details": "No reply to the Oct 7 report email or the Oct 14 reminder. Call or WhatsApp Eng. Ahmed Abdelwahap, 0598420969 (he coordinated by phone/WhatsApp before), or reach Majid Al-Mutairi (majidalmutairi@alrasheedco.com.sa)."
  }
 ]
