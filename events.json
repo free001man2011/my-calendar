@@ -1,160 +1,168 @@
 [
- {
-  "id": "stc-unsub-20261130",
-  "type": "task",
-  "name": "Unsubscribe from STC",
-  "date": "2026-11-30",
-  "time": "",
-  "details": "STC gave you a free upgrade for two months. After that the bill goes up, so unsubscribe before it renews at the higher price. Reminders: Nov 28 and Nov 30 at 9:07 AM in your Grok Bot chat."
- },
- {
-  "id": "ramsey-20261008",
-  "type": "event",
-  "name": "Meeting with Ramsey (IT manager)",
-  "date": "2026-10-08",
-  "time": "18:00",
-  "details": "18:00–20:00."
- },
- {
-  "id": "server-plan-20261011",
-  "type": "task",
-  "name": "Server Solutions Plan",
-  "date": "2026-10-11",
-  "time": "",
-  "details": "Oct 5–11. Finish all server information and projects, check whether they fit the client's ERP requirements, and find a good server solution. Related: the Sahara Net cloud demo was on Oct 7 and they haven't sent a proposal yet."
- },
- {
-  "id": "stc-promo-20261202",
-  "type": "event",
-  "name": "STC half-price ending",
-  "date": "2026-12-02",
-  "time": "09:05",
-  "details": "Day 55 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
- },
- {
-  "id": "stc-promo-20261203",
-  "type": "event",
-  "name": "STC half-price ending",
-  "date": "2026-12-03",
-  "time": "09:05",
-  "details": "Day 56 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
- },
- {
-  "id": "stc-promo-20261204",
-  "type": "event",
-  "name": "STC half-price ending",
-  "date": "2026-12-04",
-  "time": "09:05",
-  "details": "Day 57 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
- },
- {
-  "id": "stc-promo-20261205",
-  "type": "event",
-  "name": "STC half-price ending",
-  "date": "2026-12-05",
-  "time": "09:05",
-  "details": "Day 58 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
- },
- {
-  "id": "stc-promo-20261206",
-  "type": "event",
-  "name": "STC half-price ending",
-  "date": "2026-12-06",
-  "time": "09:05",
-  "details": "Day 59 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
- },
- {
-  "id": "stc-promo-20261207",
-  "type": "event",
-  "name": "STC half-price ending",
-  "date": "2026-12-07",
-  "time": "09:05",
-  "details": "Day 60 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
- },
- {
-  "id": "monshaat-ai-20261019",
-  "type": "event",
-  "name": "Monsha'at Academy: AI for Startups (الذكاء الاصطناعي للشركات الناشئة)",
-  "date": "2026-10-19",
-  "time": "18:00",
-  "details": "18:00–20:00 KSA. In-person regular class session (جلسة الصف الاعتيادية), Technology & Innovation. Location: Enterprise Support Center (مركز دعم المنشآت), Riyadh. Abdullah is enrolled. Course page: https://academy.monshaat.gov.sa/local/course/view.php?id=1597"
- },
- {
-  "id": "zatca-vat-q3-20261031",
-  "type": "task",
-  "name": "File & pay ZATCA VAT return Q3 2026 (Global Elite)",
-  "date": "2026-10-31",
-  "time": "",
-  "details": "All-day deadline. File and pay the Q3 2026 VAT return for Global Elite by Sat 31 Oct 2026. Source: ZATCA reminder email, 17 Oct 2026."
- },
- {
-  "id": "oracle-danah-20261020",
-  "type": "event",
-  "name": "Oracle meeting with Danah Al Buhaisi (Oracle), Zoom",
-  "date": "2026-10-20",
-  "time": "11:00",
-  "details": "11:00–11:30 AM KSA. Join Zoom: https://oracle.zoom.us/j/2239204322?pwd=LzJtWFZxVUl0dGRWTFRIYVdGaFF2Zz09\nIslam Alhajrasy from Oracle is CC'd. Agenda: ask whether Oracle can deploy and administer the system, and get a software demo.\nReminder: 10:40 AM in your Grok Bot chat."
- },
- {
-  "id": "masar-gec-20261021",
-  "type": "event",
-  "name": "Present Masar platform to GEC team",
-  "date": "2026-10-21",
-  "time": "18:00",
-  "details": "6:00 PM KSA. Reminder: 5:30 PM in your Grok Bot chat."
- },
- {
-  "id": "proj-alrasheed",
-  "type": "project",
-  "name": "Alrasheed Company",
-  "details": "Follow up and start business."
- },
- {
-  "id": "alrasheed-followup",
-  "project": "proj-alrasheed",
-  "type": "task",
-  "name": "Follow up and start business",
-  "date": "",
-  "time": "",
-  "details": ""
- },
- {
-  "id": "alr-visit-202608",
-  "project": "proj-alrasheed",
-  "type": "task",
-  "name": "Site visit and IT/CCTV walkthrough",
-  "date": "",
-  "time": "",
-  "done": true,
-  "details": "Visit in late August 2026. Thank-you email and pilot next steps sent Sep 1."
- },
- {
-  "id": "alr-access-20260909",
-  "project": "proj-alrasheed",
-  "type": "task",
-  "name": "Camera access granted (Al-Ruwaidah branch)",
-  "date": "",
-  "time": "",
-  "done": true,
-  "details": "Eng. Ahmed Abdelwahap (it@alrasheedco.com.sa) granted access to ab.almusaed@ on Sep 3 and Shaheer@ on Sep 9."
- },
- {
-  "id": "alr-report-20261007",
-  "project": "proj-alrasheed",
-  "type": "task",
-  "name": "Sent Sager Eye report and meeting request",
-  "date": "",
-  "time": "",
-  "done": true,
-  "details": "Emailed Oct 7 (cc Majid Al-Mutairi and Alabbas), reminder Oct 14. No reply yet as of Oct 23."
- },
- {
-  "id": "alr-followup-20261025",
-  "project": "proj-alrasheed",
-  "type": "task",
-  "name": "Call Eng. Ahmed to book the Sager Eye meeting",
-  "date": "2026-10-25",
-  "time": "",
-  "details": "No reply to the Oct 7 report email or the Oct 14 reminder. Call or WhatsApp Eng. Ahmed Abdelwahap, 0598420969 (he coordinated by phone/WhatsApp before), or reach Majid Al-Mutairi (majidalmutairi@alrasheedco.com.sa)."
- }
+  {
+    "id": "stc-unsub-20261130",
+    "type": "task",
+    "name": "Unsubscribe from STC",
+    "date": "2026-11-30",
+    "time": "",
+    "details": "STC gave you a free upgrade for two months. After that the bill goes up, so unsubscribe before it renews at the higher price. Reminders: Nov 28 and Nov 30 at 9:07 AM in your Grok Bot chat."
+  },
+  {
+    "id": "ramsey-20261008",
+    "type": "event",
+    "name": "Meeting with Ramsey (IT manager)",
+    "date": "2026-10-08",
+    "time": "18:00",
+    "details": "18:00–20:00."
+  },
+  {
+    "id": "server-plan-20261011",
+    "type": "task",
+    "name": "Server Solutions Plan",
+    "date": "2026-10-11",
+    "time": "",
+    "details": "Oct 5–11. Finish all server information and projects, check whether they fit the client's ERP requirements, and find a good server solution. Related: the Sahara Net cloud demo was on Oct 7 and they haven't sent a proposal yet."
+  },
+  {
+    "id": "stc-promo-20261202",
+    "type": "event",
+    "name": "STC half-price ending",
+    "date": "2026-12-02",
+    "time": "09:05",
+    "details": "Day 55 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+  },
+  {
+    "id": "stc-promo-20261203",
+    "type": "event",
+    "name": "STC half-price ending",
+    "date": "2026-12-03",
+    "time": "09:05",
+    "details": "Day 56 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+  },
+  {
+    "id": "stc-promo-20261204",
+    "type": "event",
+    "name": "STC half-price ending",
+    "date": "2026-12-04",
+    "time": "09:05",
+    "details": "Day 57 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+  },
+  {
+    "id": "stc-promo-20261205",
+    "type": "event",
+    "name": "STC half-price ending",
+    "date": "2026-12-05",
+    "time": "09:05",
+    "details": "Day 58 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+  },
+  {
+    "id": "stc-promo-20261206",
+    "type": "event",
+    "name": "STC half-price ending",
+    "date": "2026-12-06",
+    "time": "09:05",
+    "details": "Day 59 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+  },
+  {
+    "id": "stc-promo-20261207",
+    "type": "event",
+    "name": "STC half-price ending",
+    "date": "2026-12-07",
+    "time": "09:05",
+    "details": "Day 60 of the STC plan promo. The half-price period ends around Dec 7; after that the price goes back to the full 450 SR/month."
+  },
+  {
+    "id": "monshaat-ai-20261019",
+    "type": "event",
+    "name": "Monsha'at Academy: AI for Startups (الذكاء الاصطناعي للشركات الناشئة)",
+    "date": "2026-10-19",
+    "time": "18:00",
+    "details": "18:00–20:00 KSA. In-person regular class session (جلسة الصف الاعتيادية), Technology & Innovation. Location: Enterprise Support Center (مركز دعم المنشآت), Riyadh. Abdullah is enrolled. Course page: https://academy.monshaat.gov.sa/local/course/view.php?id=1597"
+  },
+  {
+    "id": "zatca-vat-q3-20261031",
+    "type": "task",
+    "name": "File & pay ZATCA VAT return Q3 2026 (Global Elite)",
+    "date": "2026-10-31",
+    "time": "",
+    "details": "All-day deadline. File and pay the Q3 2026 VAT return for Global Elite by Sat 31 Oct 2026. Source: ZATCA reminder email, 17 Oct 2026."
+  },
+  {
+    "id": "oracle-danah-20261020",
+    "type": "event",
+    "name": "Oracle meeting with Danah Al Buhaisi (Oracle), Zoom",
+    "date": "2026-10-20",
+    "time": "11:00",
+    "details": "11:00–11:30 AM KSA. Join Zoom: https://oracle.zoom.us/j/2239204322?pwd=LzJtWFZxVUl0dGRWTFRIYVdGaFF2Zz09\nIslam Alhajrasy from Oracle is CC'd. Agenda: ask whether Oracle can deploy and administer the system, and get a software demo.\nReminder: 10:40 AM in your Grok Bot chat."
+  },
+  {
+    "id": "masar-gec-20261021",
+    "type": "event",
+    "name": "Present Masar platform to GEC team",
+    "date": "2026-10-21",
+    "time": "18:00",
+    "details": "6:00 PM KSA. Reminder: 5:30 PM in your Grok Bot chat."
+  },
+  {
+    "id": "proj-alrasheed",
+    "type": "project",
+    "name": "Alrasheed Company",
+    "details": "Follow up and start business."
+  },
+  {
+    "id": "alrasheed-followup",
+    "project": "proj-alrasheed",
+    "type": "task",
+    "name": "Follow up and start business",
+    "date": "",
+    "time": "",
+    "details": ""
+  },
+  {
+    "id": "alr-visit-202608",
+    "project": "proj-alrasheed",
+    "type": "task",
+    "name": "Site visit and IT/CCTV walkthrough",
+    "date": "",
+    "time": "",
+    "done": true,
+    "details": "Visit in late August 2026. Thank-you email and pilot next steps sent Sep 1."
+  },
+  {
+    "id": "alr-access-20260909",
+    "project": "proj-alrasheed",
+    "type": "task",
+    "name": "Camera access granted (Al-Ruwaidah branch)",
+    "date": "",
+    "time": "",
+    "done": true,
+    "details": "Eng. Ahmed Abdelwahap (it@alrasheedco.com.sa) granted access to ab.almusaed@ on Sep 3 and Shaheer@ on Sep 9."
+  },
+  {
+    "id": "alr-report-20261007",
+    "project": "proj-alrasheed",
+    "type": "task",
+    "name": "Sent Sager Eye report and meeting request",
+    "date": "",
+    "time": "",
+    "done": true,
+    "details": "Emailed Oct 7 (cc Majid Al-Mutairi and Alabbas), reminder Oct 14. No reply yet as of Oct 23."
+  },
+  {
+    "id": "alr-followup-20261025",
+    "project": "proj-alrasheed",
+    "type": "task",
+    "name": "Call Eng. Ahmed to book the Sager Eye meeting",
+    "date": "2026-10-25",
+    "time": "",
+    "details": "No reply to the Oct 7 report email or the Oct 14 reminder. Call or WhatsApp Eng. Ahmed Abdelwahap, 0598420969 (he coordinated by phone/WhatsApp before), or reach Majid Al-Mutairi (majidalmutairi@alrasheedco.com.sa)."
+  },
+  {
+    "id": "it-meeting-20261026",
+    "type": "meeting",
+    "name": "Meeting with IT team",
+    "date": "2026-10-26",
+    "time": "12:00",
+    "details": "12:00 PM KSA. Reminder: 11:40 AM in your Grok Bot chat."
+  }
 ]
