@@ -164,5 +164,13 @@
     "date": "2026-10-26",
     "time": "12:00",
     "details": "Client meeting with Medarc. 12:00 PM KSA. Reminder: 11:40 AM in your Grok Bot chat."
+  },
+  {
+    "id": "oracle-it-20261028",
+    "type": "meeting",
+    "name": "Oracle IT team",
+    "date": "2026-10-28",
+    "time": "13:00",
+    "details": "1:00 PM KSA. Reminder: 12:40 PM in your Grok Bot chat."
   }
 ]
