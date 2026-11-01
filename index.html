@@ -38,7 +38,7 @@ header .tabs button{background:#ffffff22;color:#fff}header .tabs button.on{backg
 #planner{max-width:900px;margin:auto;padding:14px}
 </style></head><body>
 <header><div><h1>📅 My Calendar</h1><div class="tabs" style="margin-top:6px"><button id="tc" class="on" onclick="page('cal')">Calendar</button><button id="tp" onclick="page('plan')">Planner</button></div></div><div id="today"></div></header>
-<main id="calp"><div id="ban" style="display:none"></div><button type="button" id="nb" class="sm" onclick="askN()" style="margin-bottom:8px">🔔 Enable notifications</button>
+<main id="calp"><div id="ban" style="display:none"></div><button type="button" id="nb" class="sm" onclick="askN()" style="margin-bottom:8px">🔔 Enable notifications &amp; app badge</button>
 <section class="card">
 <div class="nav"><button onclick="mv(-1)">‹</button><h2 id="mt" style="margin:0"></h2><button onclick="mv(1)">›</button></div>
 <div class="tabs" style="margin-bottom:10px"><button id="vw" onclick="setV('week')">Week</button><button id="vm" class="on" onclick="setV('month')">Month</button><button onclick="goToday()">Today</button></div>
@@ -113,7 +113,7 @@ const di=sort(A.filter(i=>onDay(i,sel)));dl.innerHTML=di.length?di.map(i=>card(i
 function ban_(A){const o=A.filter(i=>(st(i)||{l:0}).l>0).sort((a,b)=>st(b).n-st(a).n);ban.style.display=o.length?'':'none';ban.innerHTML=`<h2>⏰ ${o.length} overdue item${o.length>1?'s':''}</h2>`+o.map(i=>card(i,{date:1,del:1})).join('')}
 const w=new Date();w.setDate(w.getDate()+7);const we=loc(w);let r;
 if(rt=='up')r=A.filter(i=>i.date>=t&&i.date<=we&&!i.done);else if(rt=='open')r=A.filter(i=>i.type=='task'&&!i.done);else r=A.filter(i=>dk(i)&&!i.done&&i.date&&dueOf(i)<t);
-r=sort(r);ban_(A);rl.innerHTML=r.length?r.map(i=>card(i,{date:1})).join(''):'<div class=empty>All clear.</div>';rp()}
+r=sort(r);ban_(A);sync_();rl.innerHTML=r.length?r.map(i=>card(i,{date:1})).join(''):'<div class=empty>All clear.</div>';rp()}
 function page(x){calp.style.display=x=='cal'?'':'none';planner.style.display=x=='plan'?'':'none';tc.classList.toggle('on',x=='cal');tp.classList.toggle('on',x=='plan');localStorage.setItem('myCalPage',x)}
 function addP(e){e.preventDefault();mine.push({id:'p'+Date.now(),type:'project',name:pnm.value.trim(),details:pds.value.trim()});pnm.value='';pds.value='';save()}
 function addI(e,pid){e.preventDefault();const f=e.target;mine.push({id:'m'+Date.now(),project:pid,type:f.t.value,name:f.n.value.trim(),date:f.d.value,end:f.e.value,time:f.h.value,details:f.x.value.trim()});save()}
@@ -123,9 +123,20 @@ return `<div class="pj">${editing==String(p.id)?eform(p):`<div class="row"><h3>$
 <div class="bar"><i style="width:${pc}%"></i></div><div class="sm">${d}/${it.length} done</div>
 ${it.filter(i=>sh||!i.done).map(i=>card(i,{date:1,del:1,np:1})).join('')||'<div class=empty>No open items.</div>'}
 <details style="margin-top:8px"><summary class="sm" style="cursor:pointer">+ Add step / task / meeting</summary><form onsubmit="addI(event,'${p.id}')" style="margin-top:6px"><select name="t"><option value="task">Task</option><option value="meeting">Meeting</option><option value="event">Event</option></select><input type="text" name="n" placeholder="What to do" required><input type="date" name="d" title="Start date"><label class="sm">End date (optional)</label><input type="date" name="e" title="End date (optional)"><input type="time" name="h"><textarea name="x" placeholder="Notes (optional)"></textarea><button class="p">Add</button></form></details></div>`}).join('')||'<div class=empty>No projects yet. Add one above.</div>'}
-function askN(){if(!('Notification' in window))return alert('Notifications not supported in this browser');Notification.requestPermission().then(()=>{nb_();notif()})}
-function nb_(){nb.style.display=('Notification' in window&&Notification.permission=='default')?'':'none'}
-function notif(){try{if(!('Notification' in window)||Notification.permission!='granted')return;const t=TD();if(localStorage.myCalNotified==t)return;const o=all().filter(i=>(st(i)||{l:0}).l>0);if(!o.length)return;const e=o.filter(i=>st(i).l==3).length;new Notification('My Calendar: '+o.length+' overdue',{body:(e?e+' escalated. ':'')+o.slice(0,3).map(i=>i.name).join(', '),icon:'icon-192.png'});localStorage.myCalNotified=t}catch(x){}}
-nb_();page(localStorage.getItem('myCalPage')||'cal');render();if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+function askN(){if(isIOS&&!isSA)return alert('On iPhone: tap Share → Add to Home Screen, then open My Calendar from the Home Screen icon (not Safari) and tap Enable notifications there.');if(!('Notification' in window))return alert('Notifications are not supported in this browser');Notification.requestPermission().then(()=>{nb_();localStorage.removeItem('myCalNotified');notif();psync()})}
+function nb_(){nb.style.display=((isIOS&&!isSA)||('Notification' in window&&Notification.permission=='default'))?'':'none';if(isIOS&&!isSA)nb.textContent='🔔 Notifications: open from Home Screen app'}
+const isIOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform=='MacIntel'&&navigator.maxTouchPoints>1),isSA=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+function late_(){return all().filter(i=>dk(i)&&!i.done&&st(i))}
+async function showN(title,body,tag){try{const g=await navigator.serviceWorker.ready;await g.showNotification(title,{body,tag,icon:'icon-192.png',badge:'icon-192.png',data:{url:'./#ban'}})}catch(x){try{new Notification(title,{body,icon:'icon-192.png'})}catch(y){}}}
+function sync_(){try{const o=late_(),n=o.length;if('setAppBadge' in navigator){n?navigator.setAppBadge(n).catch(()=>{}):navigator.clearAppBadge().catch(()=>{})}
+if('caches' in window)caches.open('mycal-data').then(c=>c.put('state.json',new Response(JSON.stringify(all().filter(i=>dk(i)&&!i.done&&i.date).map(i=>({id:String(i.id),name:i.name,date:i.date,end:i.end||'',p:i.project?pname(i.project):''}))),{headers:{'Content-Type':'application/json'}}))).catch(()=>{})}catch(x){}}
+function notif(){try{sync_();if(!('Notification' in window)||Notification.permission!='granted')return;const t=TD(),o=late_().filter(i=>st(i).l>0);
+const en=new Set(JSON.parse(localStorage.myCalEscN||'[]')),ne=o.filter(i=>st(i).l==3&&!en.has(String(i.id)));
+if(ne.length&&localStorage.myCalNotified==t){showN('⚠ Escalated: '+ne.length+' item'+(ne.length>1?'s':''),ne.map(i=>i.name).join(', '),'esc')}
+ne.forEach(i=>en.add(String(i.id)));localStorage.myCalEscN=JSON.stringify([...en]);
+if(localStorage.myCalNotified==t||!o.length)return;const e=o.filter(i=>st(i).l==3).length;showN('My Calendar: '+o.length+' overdue',(e?e+' escalated. ':'')+o.slice(0,3).map(i=>i.name).join(', '),'daily');localStorage.myCalNotified=t;caches.open('mycal-data').then(c=>c.put('notified',new Response(t))).catch(()=>{})}catch(x){}}
+async function psync(){try{const g=await navigator.serviceWorker.ready;if('periodicSync' in g){const q=await navigator.permissions.query({name:'periodic-background-sync'}).catch(()=>({state:'granted'}));if(q.state=='granted')await g.periodicSync.register('mycal-daily',{minInterval:864e5})}}catch(x){}}
+function goBan(){page('cal');setTimeout(()=>ban.scrollIntoView({behavior:'smooth'}),300)}
+nb_();page(localStorage.getItem('myCalPage')||'cal');render();if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').then(()=>{psync();navigator.serviceWorker.addEventListener('message',e=>{if(e.data=='ban')goBan()})});if(location.hash=='#ban')goBan();
 fetch('events.json?'+Date.now()).then(r=>r.json()).then(j=>{shared=j;render();notif()}).catch(()=>{});
 </script></body></html>
