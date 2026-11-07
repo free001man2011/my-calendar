@@ -172,5 +172,13 @@
     "date": "2026-10-28",
     "time": "13:00",
     "details": "1:00 PM KSA. Reminder: 12:40 PM in your Grok Bot chat."
+  },
+  {
+    "id": "nwc-safety-20261108",
+    "type": "task",
+    "name": "NWC: submit safety & HSE docs (supplier)",
+    "date": "2026-11-08",
+    "time": "",
+    "details": "National Water Company (Joud S. Alyabis, jalyabis@nwc.com.sa). Email 5 Nov 2026: safety requirements incomplete. Bundle all docs in one file ≤20MB per the attached guide, then reply on that thread keeping the same subject with «تم توفير المتطلبات» and your Vendor Number. Deadline Sun 8 Nov 2026."
   }
 ]
